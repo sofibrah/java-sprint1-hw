@@ -1,10 +1,7 @@
 import java.util.Scanner;
-
 class StepTracker {
     MonthData[] monthToData = new MonthData[12];
     int goalOfSteps=10000;
-
-    Converter converter= new Converter();
 
     public StepTracker() {
         for (int i = 0; i < monthToData.length; i++) {
@@ -45,8 +42,10 @@ class StepTracker {
             break;
             }
         }
-        MonthData monthData = monthToData[month - 1];
-        monthData.days[day - 1] = monthData.days[day - 1] + steps;
+        // Получение соответствующего объекта MonthData из массива
+        MonthData monthData = monthToData[month-1];
+        // Сохранение полученных данных
+        monthData.days[day-1] = steps;
     }
     void changeGoal(Scanner scanner) {
         System.out.println("Сейчас твоя цель составляет: " + goalOfSteps);
@@ -72,25 +71,30 @@ class StepTracker {
             System.out.println(" Такой команды нет ");
         }
     }
-    // пришлось переделать вызов статистики из-за создания файла с массивом дней
     public void printStatistics(Scanner scanner) {
-        System.out.println("Введите месяц от 1 до 12:");
+        System.out.println("Введите число месяца");
         int month = scanner.nextInt();
-       if (month < 1 ||month > 12) {
-            System.out.println("Ошибка, повтори ввод:");
+        if (month < 1 || month > 12) {
+            System.out.println("Ошибка ввода. Месяц введен неверно");
             return;
         }
+        MonthData monthData = monthToData[month-1];  // Получение соответствующего объекта MonthData из массива
+        Converter converter = new Converter();
+
+        System.out.println("Количество шагов по дням: ");
+        monthData.printDaysAndStepsFromMonth();
         System.out.println();
-        monthToData[month - 1].printDaysAndStepsFromMonth();
-        System.out.println("Статистика за " + month + " месяц.");
+       // int sumMonth = monthData.sumStepsFromMonth(); //переменная получения суммы шагов за мес
+        //System.out.println("Общее количество шагов за месяц: " + sumMonth);
         System.out.println();
-        monthToData[month-1].sumStepsFromMonth();
+        System.out.println("Максимальное пройденное количество шагов в месяце: " + monthData.maxSteps());
         System.out.println();
-        monthToData[month-1].maxSteps();
-        System.out.println("Среднее количество шагов составило: " + monthToData[month - 1].sumStepsFromMonth() / monthToData[month - 1].days.length);
-        monthToData[month-1].bestSeries(goalOfSteps); //выводит сколько дней ты выполнял цель
+        System.out.println("Cреднее количество шагов: " + monthData.maxSteps() / monthData.days.length);
         System.out.println();
-        converter.convertStepsToKilocalories(monthToData[month-1].sumStepsFromMonth());
-        converter.convertToKm(monthToData[month-1].sumStepsFromMonth());
+        converter.convertToKm(monthData.sumStepsFromMonth());
+        converter.convertStepsToKilocalories(monthData.sumStepsFromMonth());
+        System.out.println();
+        System.out.println("Лучшая серия: " + monthData.bestSeries(goalOfSteps));
+
     }
 }

@@ -1,6 +1,4 @@
 public class Converter {
-
-
     void convertToKm(int allStep){
         int kilometers = ((int) (allStep*0.75)/ 1000);
         System.out.println("Ты прошел: " + kilometers + " км");
