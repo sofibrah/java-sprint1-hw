@@ -1,10 +1,10 @@
 public class Converter {
-    void convertToKm(int allStep){
-        int kilometers = ((int) (allStep*0.75)/ 1000);
-        System.out.println("Ты прошел: " + kilometers + " км");
+    int convertToKm(int allSteps){
+        int kilometers = allSteps * 75 / 100000;
+        return kilometers;
     }
-    void convertStepsToKilocalories(int allStep){
-        int kilocalories = (50*allStep)/1000;
-        System.out.println("Ого, ты сжог: "+kilocalories+" Килокалорий");
+    int convertStepsToKilocalories(int allSteps){
+        int kilocalories = (50*allSteps)/1000;
+        return kilocalories;
     }
 }
